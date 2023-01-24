@@ -13,6 +13,7 @@ namespace WEBAPI.SERVICES.Interfaces
         public Employee GetEmployee(string EmpCode);
         public void createEmployee(Employee emp);
         public void updateEmployee(Employee emp);
+        public void deleteEmployee(Employee emp);
        
     }
 }

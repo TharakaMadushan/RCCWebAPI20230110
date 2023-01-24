@@ -28,6 +28,7 @@ namespace WEBAPI.PERSISTANCE
             modelBuilder.Entity<CustomerProject>().HasKey(o => o.ProjectCode);
             modelBuilder.Entity<Employee>().HasKey(o => o.EmployeeCode);
             modelBuilder.Entity<DayType>().HasKey(o => o.DayTypeCode);
+            modelBuilder.Entity<ActiveCarder>().HasKey(o => o.EmpCode);
         }
 
     }

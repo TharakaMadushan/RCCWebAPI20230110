@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WEBAPI.MODELS;
 using WEBAPI.SERVICES;
@@ -11,10 +12,12 @@ namespace WEBAPI.Controllers
     public class EmployeeController : ControllerBase
     {
         private readonly IEmployeeServices employeeServices;
+        private readonly IMapper mapper;
 
-        public EmployeeController(IEmployeeServices _employeeServices)
+        public EmployeeController(IEmployeeServices _employeeServices, IMapper _mapper)
         {
             employeeServices = _employeeServices;
+            mapper = _mapper;
         }
 
         [HttpGet("{code}")]
@@ -31,14 +34,32 @@ namespace WEBAPI.Controllers
             return Ok();
         }
 
-        [HttpPut]
-        public ActionResult updateEmployee(Employee emp)
+        [HttpPut("{empCode}")]
+        public ActionResult updateEmployee(string empCode, UpdateEmpDTO update)
         {
-            var em = employeeServices.GetEmployee(emp.EmployeeCode);
+            var updateemp = employeeServices.GetEmployee(empCode);
+            if (updateemp is null)
+            {
+                return NotFound();
+            }
 
-            if (em == null) return NotFound();
+            mapper.Map(update, updateemp);
+            employeeServices.updateEmployee(updateemp);
 
-            employeeServices.updateEmployee(emp);
+            return NoContent();
+        }
+
+
+        [HttpDelete("{empCode}")]
+        public ActionResult deleteEmployee(string empCode)
+        {
+            var deleteemp = employeeServices.GetEmployee(empCode);
+            if (deleteemp is null)
+            {
+                return NotFound();
+            }
+
+            employeeServices.deleteEmployee(deleteemp);
 
             return NoContent();
         }

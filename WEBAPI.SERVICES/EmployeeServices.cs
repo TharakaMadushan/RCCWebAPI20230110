@@ -30,9 +30,15 @@ namespace WEBAPI.SERVICES
             dataAccess.SaveChanges();
         }
 
-        public void  updateEmployee(Employee emp)
+        public void updateEmployee(Employee emp)
         {
-            dataAccess.tblRefEmployee.Update(emp);
+            dataAccess.Update(emp);
+            dataAccess.SaveChanges();
+        }
+
+        public void deleteEmployee(Employee emp)
+        {
+           dataAccess.Remove(emp);
             dataAccess.SaveChanges();
         }
     }

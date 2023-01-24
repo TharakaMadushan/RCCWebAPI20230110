@@ -30,13 +30,16 @@ namespace WEBAPI.SERVICES
             dataAccess.SaveChanges();
         }
 
-        public void updateDayType(DayType _dayType)
+        public void updateDayType(DayType dayType)
         {
-            //_dayType.DayTypeCode = dataAccess.tblRefDayType.AsNoTracking().SingleOrDefault(t => t.DayTypeCode == _dayType.DayTypeCode).DayTypeCode;
-            dataAccess.tblRefDayType.Update(_dayType);
+            dataAccess.Update(dayType);
             dataAccess.SaveChanges();
         }
 
-
+        public void deleteDayType(DayType dayType)
+        {
+            dataAccess.Remove(dayType);
+            dataAccess.SaveChanges();
+        }
     }
 }

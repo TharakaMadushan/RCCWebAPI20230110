@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WEBAPI.MODELS;
 using WEBAPI.SERVICES.Interfaces;
@@ -10,10 +11,12 @@ namespace WEBAPI.Controllers
     public class DayTypeController : ControllerBase
     {
         private readonly IDayTypeServices dayTypeServices;
+        private readonly IMapper mapper;
 
-        public DayTypeController(IDayTypeServices _dayTypeServices)
+        public DayTypeController(IDayTypeServices _dayTypeServices, IMapper _mapper)
         {
             dayTypeServices = _dayTypeServices;
+            mapper = _mapper;   
         }
 
         [HttpGet("{code}")]
@@ -30,14 +33,27 @@ namespace WEBAPI.Controllers
             return Ok();
         }
 
-        [HttpPut]
-        public ActionResult updateDayType(DayType dt)
+        [HttpPut("{dayCode}")]
+        public ActionResult updateDayType(string dayCode, UpdateDayTypeDTO update)
         {
-            var dayType = dayTypeServices.GetDayType(dt.DayTypeCode);
+            var updatedayType = dayTypeServices.GetDayType(dayCode);
 
-            if (dayType == null) return NotFound();
+            if (updatedayType is null) return NotFound();
 
-            dayTypeServices.updateDayType(dt);
+            mapper.Map(update, updatedayType);
+            dayTypeServices.updateDayType(updatedayType);
+
+            return NoContent();
+        }
+
+        [HttpDelete("{dayCode}")]
+        public ActionResult deleteDayType(string dayCode)
+        {
+            var deleteDayType = dayTypeServices.GetDayType(dayCode);
+
+            if (deleteDayType is null) return NotFound();
+
+            dayTypeServices.deleteDayType(deleteDayType);
 
             return NoContent();
         }

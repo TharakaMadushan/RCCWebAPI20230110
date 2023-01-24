@@ -7,19 +7,11 @@ using System.Threading.Tasks;
 
 namespace WEBAPI.MODELS
 {
-    public class DayType
+    public class UpdateDayTypeDTO
     {
-        [Required]
-        [MaxLength(20)]
-        public string DayTypeCode { get; set; }
-
-        [Required]
-        [MaxLength(100)]
+        //public string DayTypeCode { get; set; }
         public string DayTypeName { get; set; }
-
         public decimal WorkingHours { get; set; } = decimal.Zero;
-
-        [Required]
         public bool IsActive { get; set; }
     }
 }

@@ -11,10 +11,8 @@ namespace WEBAPI.SERVICES.Interfaces
     public interface IDayTypeServices
     {
         public DayType GetDayType(string _DayTypeCode);      
-
         public void createDayType(DayType dayType);
-
-        public void updateDayType(DayType _dayType);
-       
+        public void updateDayType(DayType dayType);
+        public void deleteDayType(DayType dayType);
     }
 }

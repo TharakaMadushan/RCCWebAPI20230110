@@ -12,6 +12,6 @@ namespace WEBAPI.SERVICES.Interfaces
         public Designation GetDesignation(string DesigCode);
         public void CreateDesignation(Designation designation);
         public void UpdateDesignation(Designation designation);
-        
+        public void DeleteDesignation(Designation designation);
     }
 }

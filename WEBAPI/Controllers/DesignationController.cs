@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WEBAPI.MODELS;
 using WEBAPI.SERVICES.Interfaces;
@@ -10,10 +11,12 @@ namespace WEBAPI.Controllers
     public class DesignationController : ControllerBase
     {
         private readonly IDesignationServices _IDesignationServices;
+        private readonly IMapper _mapper;
 
-        public DesignationController(IDesignationServices designationServices)
+        public DesignationController(IDesignationServices designationServices, IMapper mapper)
         {
             _IDesignationServices = designationServices;
+            _mapper = mapper;
         }
 
         [HttpGet("{DesigCode}")]
@@ -30,23 +33,30 @@ namespace WEBAPI.Controllers
             return Ok();
         }
 
-        [HttpPut]
-        public ActionResult updateDesignaton(Designation designation)
+        [HttpPut("{desCode}")]
+        public ActionResult updateDesignaton(string desCode, UpdateDesignationsDTO update)
         {
-            var desig = _IDesignationServices.GetDesignation(designation.DesigCode);
+            var desig = _IDesignationServices.GetDesignation(desCode);
 
             if (desig == null) return NotFound();
 
-            //var oAdd = new Designation
-            //{
-            //    DesigCode = designation.DesigCode,
-            //    DesigDes = designation.DesigDes,
-            //    Status = designation.Status
-            //};
+            _mapper.Map(update, desig);
+            _IDesignationServices.UpdateDesignation(desig);
 
+            return NoContent();
+        }
 
-            _IDesignationServices.UpdateDesignation(designation);
+        [HttpDelete("{desCode}")]
+        public ActionResult deleteDesignation(string desCode)
+        {
+            var desig = _IDesignationServices.GetDesignation(desCode);
 
+            if (desig is null)
+            {
+                return NotFound();
+            }
+
+            _IDesignationServices.DeleteDesignation(desig);
             return NoContent();
         }
     }

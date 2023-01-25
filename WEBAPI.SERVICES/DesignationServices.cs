@@ -31,10 +31,14 @@ namespace WEBAPI.SERVICES
 
         public void UpdateDesignation(Designation designation)
         {
-            dataAccess.tblRefDesignation.Update(designation);
+            dataAccess.Update(designation);
             dataAccess.SaveChanges();
         }
 
-
+        public void DeleteDesignation(Designation designation)
+        {
+            dataAccess.Remove(designation);
+            dataAccess.SaveChanges();
+        }
     }
 }
